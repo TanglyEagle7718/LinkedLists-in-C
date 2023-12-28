@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/*
+ * Auth: Rishi B
+ */
+
 struct Node {
 	int size;
 	int data;
@@ -47,7 +51,7 @@ addInput:
 			if (head->size < 0) {
 				printf("head is null");
 				head = (struct Node *)malloc( sizeof(struct Node) * 1);
-				head->size = 1
+				head->size = 1;
 			} else if (head->size < index) {
 				printf("choose a new index to input to - must be between 0 - %d\n", head->size);
 				goto addInput;
