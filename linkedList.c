@@ -13,7 +13,7 @@ struct Node {
 };
 
 struct Node* getData(struct Node *head, struct Node *current, int size);
-void add(int *data, int index);
+void add(struct Node *head, int data, int index);
 void printList(struct Node *head);
 void iterateThrough(struct Node *head);
 
@@ -48,13 +48,26 @@ int main() {
 addInput:
 			printf("what index would you like to add to");
 			scanf("%d", &index);
+			printf("The current size of LL is %d\n", head->size);
 			if (head->size < 0) {
-				printf("head is null");
+				printf("LinkedList not initialized, index can only be 0\n");
+				if (index != 0)
+					goto addInput;
+				
 				head = (struct Node *)malloc( sizeof(struct Node) * 1);
 				head->size = 1;
+				printf("What data point would you like to add?");
+				scanf("%d",&input);
+				head->data=input;
+				initialized = true;
 			} else if (head->size < index) {
 				printf("choose a new index to input to - must be between 0 - %d\n", head->size);
 				goto addInput;
+			} else {
+				printf("What data would you like to add?");
+				scanf("%d", &input);	
+				add(head, input, index);
+				printList(head);		
 			}
 		} else if (input == 2) {
 	
@@ -94,8 +107,22 @@ void printList(struct Node *head) {
 	printf("%d\n", curr->data);
 }
 
-void add(int *data, int index) {
-//	if (index < 0 || 
-
-
+void add(struct Node *head, int data, int index) {
+	struct Node *curr = head;
+	printf("curr capacity is (in add) %d\n", curr->size);	
+	if (index == curr->size) {	
+		while (curr->next != NULL) {
+			curr->size = curr->size + 1;
+			curr = curr->next;
+		}
+		curr->next = (struct Node *)malloc( sizeof(struct Node) * 1);
+		int numberOfElements = curr->size;
+		curr = curr->next;
+		curr->size = numberOfElements+1;
+		curr->data = data;
+	} else {
+		for (int i = 0 ; i < index ; i++) {
+			curr = curr->next;
+		}
+	}
 }
