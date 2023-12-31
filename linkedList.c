@@ -13,7 +13,7 @@ struct Node {
 };
 
 struct Node* getData(struct Node *head, struct Node *current, int size);
-void add(struct Node *head, int data, int index);
+void add(struct Node **head, int data, int index);
 void printList(struct Node *head);
 void iterateThrough(struct Node *head);
 
@@ -68,7 +68,7 @@ addInput:
 			} else {
 				printf(">> What data would you like to add?");
 				scanf("%d", &inputC1);	
-				add(head, inputC1, index);
+				add(&head, inputC1, index);
 				printList(head);		
 			}
 		} else if (input == 2) {
@@ -111,8 +111,8 @@ void printList(struct Node *head) {
 	printf("[EOP]: The size of the list is %d\n", head->size);
 }
 
-void add(struct Node *head, int data, int index) {
-	struct Node *curr = head;
+void add(struct Node **head, int data, int index) {
+	struct Node *curr = *head;
 	if (index == curr->size) {	
 		if (curr->next == NULL) {
 			curr->size = curr->size + 1;
@@ -128,15 +128,15 @@ void add(struct Node *head, int data, int index) {
 		curr = curr->next;
 		curr->size = numberOfElements+1;
 		curr->data = data;
-		printf("[info]: size has been increased to %d\n", (head)->size);
+		printf("[info]: size has been increased to %d\n", (*head)->size);
 	} else if (index == 0) {
-		struct Node *tmp = head;
+		struct Node *tmp = *head;
 		struct Node *newNode = (struct Node *)malloc( sizeof(struct Node) * 1);
 		newNode->size = tmp->size+1;
 		newNode->data = data;
-		head = newNode;
-		(head)->next = tmp;
+		*head = newNode;
+		(*head)->next = tmp;
 
-		printf("[info]: size has been increased to %d\n", (head)->size);
+		printf("[info]: size has been increased to %d\n", (*head)->size);
 	}
 }
