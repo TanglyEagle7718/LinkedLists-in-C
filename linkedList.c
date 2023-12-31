@@ -48,7 +48,7 @@ int main() {
 addInput:
 			printf(">> what index would you like to add to");
 			scanf("%d", &index);
-			printf("The current size of LL is %d\n", head->size);
+			//printf("[info] The current size of LL is %d\n", head->size);
 			if (head->size < 0) {
 				printf("LinkedList not initialized, index can only be 0\n");
 				if (index != 0)
@@ -61,6 +61,7 @@ addInput:
 				scanf("%d",&inputC1);
 				head->data=inputC1;
 				initialized = true;
+				printList(head);
 			} else if (head->size < index) {
 				printf(">> choose a new index to input to - must be between 0 - %d\n", head->size);
 				goto addInput;
@@ -102,18 +103,16 @@ void printList(struct Node *head) {
        	curr = head;
 	int index = 0;
 	while (curr->next != NULL) {
-		printf("At index INDEX:%d, the data point is DATA:%d and it is located at ADDRESS:%p\n", index++, curr->data, curr);
+		printf("[EOP]: At index INDEX:%d, the data point is DATA:%d and it is located at ADDRESS:%p\n", index++, curr->data, curr);
 		curr = curr->next;
 	}
 
-	printf("At index INDEX:%d, the data point is DATA:%d and it is located at ADDRESS:%p\n", index++, curr->data, curr);
-	printf("The size of the list is %d\n", head->size);
+	printf("[EOP]: At index INDEX:%d, the data point is DATA:%d and it is located at ADDRESS:%p\n", index++, curr->data, curr);
+	printf("[EOP]: The size of the list is %d\n", head->size);
 }
 
 void add(struct Node *head, int data, int index) {
-	printf("ALKSDFJA;OISDJV;OIAZJV;OIAJWG;IUAOWJHGI;UAHGAIUZSDHV;KJLASHD;FLWEOIF");
 	struct Node *curr = head;
-	printf("curr capacity is (in add) %d\n", curr->size);	
 	if (index == curr->size) {	
 		if (curr->next == NULL) {
 			curr->size = curr->size + 1;
@@ -121,7 +120,6 @@ void add(struct Node *head, int data, int index) {
 		while (curr->next != NULL) {
 			if (curr->size < 0) curr->size = 1;
 			curr->size = curr->size + 1;
-			printf("iiiii the size has been changed to %d\n", curr->size);
 			curr = curr->next;
 		}
 		
@@ -130,10 +128,15 @@ void add(struct Node *head, int data, int index) {
 		curr = curr->next;
 		curr->size = numberOfElements+1;
 		curr->data = data;
-		printf("[info]: head size has been changed to %d\n", head->size);
-	} else {
-		for (int i = 0 ; i < index ; i++) {
-			curr = curr->next;
-		}
+		printf("[info]: size has been increased to %d\n", (head)->size);
+	} else if (index == 0) {
+		struct Node *tmp = head;
+		struct Node *newNode = (struct Node *)malloc( sizeof(struct Node) * 1);
+		newNode->size = tmp->size+1;
+		newNode->data = data;
+		head = newNode;
+		(head)->next = tmp;
+
+		printf("[info]: size has been increased to %d\n", (head)->size);
 	}
 }
