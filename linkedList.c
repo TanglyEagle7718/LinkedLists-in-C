@@ -139,6 +139,7 @@ void add(struct Node **head, int data, int index) {
 
 		printf("[info]: size has been increased to %d\n", (*head)->size);
 	} else {
+		//(*head)->size = (*head)->size + 1;
 		for (int i = 0 ; i < index-1 ; i++) {
 			curr->size = curr->size + 1;
 			curr = curr->next;	
@@ -146,8 +147,8 @@ void add(struct Node **head, int data, int index) {
 		struct Node *newNode = (struct Node *)malloc( sizeof(struct Node) * 1);
 		newNode->size = curr->size;
 		newNode->data = data;
-		newNode->next = &curr->next;
-		curr->next = newNode->next;
+		newNode->next = curr->next;
+		curr->next = newNode;
 			
 		printf("[info]: size has been increased to %d\n", (*head)->size);
 	}
