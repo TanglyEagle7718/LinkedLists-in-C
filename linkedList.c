@@ -14,6 +14,7 @@ struct Node {
 
 struct Node* getData(struct Node *head, struct Node *current, int size);
 void add(struct Node **head, int data, int index);
+int removed(struct Node **head, int index);
 void printList(struct Node *head);
 void iterateThrough(struct Node *head);
 
@@ -32,10 +33,10 @@ int main() {
 		scanf("%d", &input);
 		if (input == 0 && !initialized) {
 			initialized = true;	
-			printf(">> how many elements do you want to add?");
+			printf(">> how many elements do you want to add? ");
 			scanf("%d", &numberOfElements);
 		
-			printf(">> input data elements in the order you want them in the LinkedList");
+			printf(">> input data elements in the order you want them in the LinkedList ");
 			head = (struct Node *)malloc( sizeof(struct Node) * numberOfElements );
 			current = head;
 			
@@ -46,7 +47,7 @@ int main() {
 			int inputC1;
 			int index;		
 addInput:
-			printf(">> what index would you like to add to");
+			printf(">> what index would you like to add to ");
 			scanf("%d", &index);
 			//printf("[info] The current size of LL is %d\n", head->size);
 			if (head->size < 0) {
@@ -57,7 +58,7 @@ addInput:
 				head = (struct Node *)malloc( sizeof(struct Node) * 1);
 				head->size = 1;
 				printf("[info]: head size has been changed to %d\n", head->size);
-				printf(">> What data point would you like to add?");
+				printf(">> What data point would you like to add? ");
 				scanf("%d",&inputC1);
 				head->data=inputC1;
 				initialized = true;
@@ -66,16 +67,30 @@ addInput:
 				printf(">> choose a new index to input to - must be between 0 - %d\n", head->size);
 				goto addInput;
 			} else {
-				printf(">> What data would you like to add?");
+				printf(">> What data would you like to add? ");
 				scanf("%d", &inputC1);	
 				add(&head, inputC1, index);
 				printList(head);		
 			}
 		} else if (input == 2) {
-	
+			int index;
+						
+removeInput:
+			printf(">> what index would you like to remove from ");
+			scanf("%d", &index);
+			//printf("[info] The current size of LL is %d\n", head->size);
+			if (head->size < 0) {
+				printf("LinkedList not initialized, initialize linked list with options [0] or [1]\n");
+				
+			} else if (head->size-1 < index) {
+				printf(">> choose a new index to input to - must be between 0 - %d\n", (head->size-1));
+				goto removeInput;
+			} else {
+				removed(&head, index);
+				printList(head);		
+			}
 		}
 	}
-
 }
 
 struct Node* getData(struct Node *head, struct Node *current, int numberOfElements) {
@@ -99,6 +114,7 @@ struct Node* getData(struct Node *head, struct Node *current, int numberOfElemen
 }
 
 void printList(struct Node *head) {
+	if (head->size < 0) return;
 	struct Node *curr;
        	curr = head;
 	int index = 0;
@@ -139,7 +155,6 @@ void add(struct Node **head, int data, int index) {
 
 		printf("[info]: size has been increased to %d\n", (*head)->size);
 	} else {
-		//(*head)->size = (*head)->size + 1;
 		for (int i = 0 ; i < index-1 ; i++) {
 			curr->size = curr->size + 1;
 			curr = curr->next;	
@@ -152,4 +167,32 @@ void add(struct Node **head, int data, int index) {
 			
 		printf("[info]: size has been increased to %d\n", (*head)->size);
 	}
+}
+
+
+int removed(struct Node **head, int index) {
+	int returnValue = -1;
+	if ((*head)->size == 1) {
+		returnValue = (*head)->data;
+		head = NULL;
+	} else if (index == 0) {
+		struct Node *tmp = *head;
+		(*head)->next->size = (*head)->size;
+		returnValue = (*head)->data;
+		*head = (*head)->next;	
+		free(tmp);
+		(*head)->size = (*head)->size - 1;	
+	} else if (index+1 == (*head)->size) {
+		struct Node *curr = *head;
+		for (int i = 0 ; i < index-1 ; i++) {
+			curr = curr->next;	
+		}
+		returnValue = curr->next->data;
+		struct Node *tmp = *(curr->next);
+		curr->next = NULL;
+		free(tmp);
+		(*head)->size = (*head)->size - 1;
+			
+	}
+	return returnValue;
 }
