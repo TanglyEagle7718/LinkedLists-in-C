@@ -188,7 +188,7 @@ int removed(struct Node **head, int index) {
 			curr = curr->next;	
 		}
 		returnValue = curr->next->data;
-		struct Node *tmp = *(curr->next);
+		struct Node *tmp = curr->next;
 		curr->next = NULL;
 		free(tmp);
 		(*head)->size = (*head)->size - 1;
